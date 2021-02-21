@@ -10,4 +10,4 @@ WORKDIR /app
 COPY --from=build-env  /weather/build /app
 RUN npm install -g serve
 EXPOSE 5000
-CMD ["serve", "-s", "build"]
+CMD ["serve", "-s"]

@@ -25,8 +25,6 @@ CREATE TABLE IF NOT EXISTS weather_forecast
     zip_code text
 );
 
-
-
 -- Insert sample data 
 BEGIN TRANSACTION;
 
