@@ -1,7 +1,11 @@
+CREATE EXTENSION pg_trgm;
+
+-- Functions
 CREATE OR REPLACE FUNCTION generate_timestamp() RETURNS timestamp
             AS 'select timestamp ''2010-01-10 10:00:00'' + random() * (timestamp ''2021-02-21 20:00:00'' - timestamp ''2010-01-10 10:00:00'');'
     LANGUAGE SQL;
 
+-- Tables
 CREATE TABLE db_version
 (
     id uuid primary key not null,
@@ -15,17 +19,20 @@ CREATE TABLE IF NOT EXISTS weather_forecast
     id uuid primary key,
     forecast_time timestamp,
     temp_c numeric,
-    temp_f numeric generated always as (32 + (temp_c * 0.05556)) stored,
+    temp_f numeric generated always as (32 + (temp_c * 1.8)) stored,
     city text,
     state text,
     zip_code text
 );
 
--- Set initial DB version
-INSERT INTO db_version (id, db_version, install_date, notes) VALUES ('0d3cb499-3976-44b1-9e84-b30e13bf90a4', '0.1', CURRENT_TIMESTAMP, 'n/a');
+
 
 -- Insert sample data 
 BEGIN TRANSACTION;
+
+-- Set initial DB version
+INSERT INTO db_version (id, db_version, install_date, notes) VALUES ('0d3cb499-3976-44b1-9e84-b30e13bf90a4', '0.1', CURRENT_TIMESTAMP, 'n/a');
+
 -- Melbourne
 INSERT INTO weather_forecast (id, forecast_time, temp_c, city, state, zip_code) VALUES (gen_random_uuid(), generate_timestamp(), 20, 'Melbourne', 'FL', '32901');
 INSERT INTO weather_forecast (id, forecast_time, temp_c, city, state, zip_code) VALUES (gen_random_uuid(), generate_timestamp(), 22, 'Melbourne', 'FL', '32901');
@@ -747,3 +754,11 @@ INSERT INTO weather_forecast (id, forecast_time, temp_c, city, state, zip_code) 
 INSERT INTO weather_forecast (id, forecast_time, temp_c, city, state, zip_code) VALUES (gen_random_uuid(), generate_timestamp(), 30, 'Miami Beach', 'FL', '33119');
 INSERT INTO weather_forecast (id, forecast_time, temp_c, city, state, zip_code) VALUES (gen_random_uuid(), generate_timestamp(), 31, 'Miami Beach', 'FL', '33119');
 END TRANSACTION;
+
+-- Create index(es) and statistics
+
+CREATE INDEX CONCURRENTLY idx_weather_forecast_temp ON weather_forecast (temp_c, temp_f);
+CREATE INDEX CONCURRENTLY idx_weather_forecast_city_trgm ON weather_forecast USING GIN (city gin_trgm_ops);
+CREATE STATISTICS s_weather_forecast_temp ON temp_c, temp_f FROM weather_forecast;
+VACUUM (full) weather_forecast;
+ANALYZE weather_forecast;
