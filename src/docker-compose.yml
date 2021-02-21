@@ -1,0 +1,28 @@
+version: "3.9"
+   
+services:
+  db:
+    container_name: weather_postgres
+    image: postgres:13.2
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./database/db_create_1.0.sql:/docker-entrypoint-initdb.d/init.sql
+  api:
+    container_name: weather_api
+    build: ./backend/
+    ports:
+      - 5001:5001
+    depends_on:
+      - db
+  web:
+    container_name: weather_portal
+    build: ./frontend/ClientApp/
+    ports:
+      - 5000:5000
+    depends_on:
+      - api
