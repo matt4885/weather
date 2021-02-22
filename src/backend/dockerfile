@@ -2,9 +2,8 @@ FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build-env
 WORKDIR /weather
 COPY . .
 RUN dotnet publish -o /weather/out
-RUN ls -lah /weather/out
+
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS run-env
 WORKDIR /weather/app
 COPY --from=build-env /weather/out /weather/app
-RUN ls -lah /weather/app
 CMD ["dotnet", "Weather.dll"]

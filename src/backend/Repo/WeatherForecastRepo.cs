@@ -1,8 +1,5 @@
-using System;
 using Weather.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using Npgsql;
 
 namespace Weather.Repo
 {

@@ -5,36 +5,35 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Weather.Models;
+using Weather.BusinessLogic.Interfaces;
 
 namespace Weather.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("weatherforecast")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger,
+                                         IWeatherForecastBusinessLogic weatherForecastBusinessLogic)
         {
             _logger = logger;
+            _weatherforecastbusinesslogic = weatherForecastBusinessLogic;
         }
 
+        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IWeatherForecastBusinessLogic _weatherforecastbusinesslogic;
+
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<IActionResult> GetWeatherForecastAsync([FromForm] Guid forecastId)
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
+            await _weatherforecastbusinesslogic.GetWeatherForecastAsync(forecastId);
+            return Ok();
+        }
+
+        public async Task<IActionResult> AddForecastAsync([FromBody] WeatherForecast weatherForecast)
+        {
+            await _weatherforecastbusinesslogic.AddForecastAsync(weatherForecast);
+            return Ok();
         }
     }
 }

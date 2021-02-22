@@ -22,6 +22,5 @@ namespace Weather
                 {
                     webBuilder.UseStartup<Startup>();
                 });
-                
     }
 }
