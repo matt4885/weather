@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Weather.Repo;
 using Microsoft.OpenApi.Models;
+using Weather.Repo.Interfaces;
 
 namespace Weather
 {

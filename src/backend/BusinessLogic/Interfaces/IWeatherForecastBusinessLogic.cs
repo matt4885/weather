@@ -7,6 +7,7 @@ namespace Weather.BusinessLogic.Interfaces
 {
     public interface IWeatherForecastBusinessLogic
     {
-        Task<IEnumerable<WeatherForecast>> GetWeatherForecastAsync(Guid forecastId);
+        Task<WeatherForecast> GetWeatherForecastAsync(Guid forecastId);
+        Task AddForecastAsync(WeatherForecast weatherForecast);
     }
 }

@@ -1,7 +1,7 @@
 using Weather.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Weather.Repo
+namespace Weather.Repo.Interfaces
 {
     public class WeatherContext : DbContext
     {
@@ -11,6 +11,5 @@ namespace Weather.Repo
             _dbContext = dbContext;
         }
         public DbSet<WeatherForecast> WeatherForecasts { get; set; }
-
     }
 }

@@ -16,6 +16,7 @@ namespace Weather.Models
 
     public class WeatherForecast
     {
+        public Guid ForecastId { get; set;}
         public DateTime Date { get; set; }
         public int TemperatureC { get; set; }
         public int TemperatureF { get; set; } // Computed column in the database off of TemperatureC / temp_c
