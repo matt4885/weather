@@ -6,4 +6,5 @@ RUN dotnet publish -o /weather/out
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS run-env
 WORKDIR /weather/app
 COPY --from=build-env /weather/out /weather/app
+ENV ASPNETCORE_URLS=http://+:5001 
 CMD ["dotnet", "Weather.dll"]
