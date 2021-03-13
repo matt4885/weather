@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Weather.BusinessLogic.Interfaces;
 using Weather.Models;
-using Weather.Repo;
+using Weather.Repo.Interfaces;
 
 namespace Weather.BusinessLogic
 {

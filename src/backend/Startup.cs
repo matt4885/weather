@@ -4,9 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Weather.Repo;
 using Microsoft.OpenApi.Models;
-using Weather.Repo.Interfaces;
+using Weather.Models;
 
 namespace Weather
 {
@@ -22,7 +21,7 @@ namespace Weather
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<WeatherContext>(options =>
+            services.AddDbContext<DataContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("BloggingContext")));
 
             services.AddControllersWithViews();
