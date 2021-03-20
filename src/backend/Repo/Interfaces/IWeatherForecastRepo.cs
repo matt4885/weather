@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Weather.Models;
 
-namespace Weather.BusinessLogic
+namespace Weather.Repo.Interfaces
 {
     public interface IWeatherForecastRepo
     {
