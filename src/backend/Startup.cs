@@ -48,7 +48,6 @@ namespace Weather
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
             app.UseRouting();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
