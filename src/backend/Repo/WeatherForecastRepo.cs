@@ -21,7 +21,7 @@ namespace Weather.Repo
         /// <returns></returns>
         public Task AddForecastAsync(WeatherForecast weatherForecast)
         {
-            
+            _dbContext.WeatherForecast.
             throw new NotImplementedException();
         }
 

@@ -6,7 +6,7 @@ namespace Weather.Repo.Interfaces
 {
     public interface IWeatherForecastRepo
     {
-        Task AddForecastAsync();
+        Task AddForecastAsync(WeatherForecast weatherForecast);
         Task<WeatherForecast> GetWeatherForecastAsync(Guid forecastId);
     }
 }
